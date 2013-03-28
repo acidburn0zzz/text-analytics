@@ -3,6 +3,7 @@ class WordsController < ApplicationController
   # GET /words.json
   def index
     @words = Word.all
+    @clouds = Word.select(:cloud).uniq
 
     respond_to do |format|
       format.html # index.html.erb
@@ -67,6 +68,14 @@ class WordsController < ApplicationController
         format.json { render json: @word.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  # GET /words/1/delete
+  def delete
+      @word = Word.find(params[:id])
+      @word.deleted = true
+      @word.save
+      redirect_to :controller => 'cloud', :action => 'index'
   end
 
   # DELETE /words/1

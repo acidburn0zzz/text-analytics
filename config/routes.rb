@@ -1,6 +1,10 @@
 Wordcloud::Application.routes.draw do
   resources :words
+  resources :cloud
 
+  #match 'words/:id/delete' => 'words#delete', :as => :delete
+  get 'words/:id/delete', to: 'words#delete'
+  get 'cloud/:cloud', to: 'cloud/#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

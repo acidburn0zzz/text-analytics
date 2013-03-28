@@ -1,0 +1,12 @@
+<div id="top">
+    <span class="text">Click on a word to remove it from the cloud</span>
+    <br/>
+    <a href="/">Home</a>
+</div>
+<div id="cloud">
+    <% @words.each do |word| %>
+        <span class="word" style="font-size:<%= scale(word.count) %>px">
+            <a href="/words/<%= word.id %>/delete"><%= word.text %></a>
+        </span>&nbsp
+    <% end %>
+</div>
