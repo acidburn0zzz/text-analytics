@@ -1,7 +1,8 @@
+<h1><%= @words.first.cloud %></h1>
 <div id="top">
     <span class="text">Click on a word to remove it from the cloud</span>
     <br/>
-    <a href="/">Home</a>
+    <a href="/words">Home</a>
 </div>
 <div id="cloud">
     <% @words.each do |word| %>

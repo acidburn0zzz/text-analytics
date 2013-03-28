@@ -1,4 +1,27 @@
 class WordsController < ApplicationController
+    http_basic_authenticate_with :name => "boomi", :password => "b00m1"
+
+    def seed
+        word_array = []
+        File.open("big.txt") do |f|
+            f.readlines.each do |line|
+                line.gsub(/[^\w\s]/, '').downcase.split.each do |word|
+                    word_array << word
+                end
+            end
+        end
+        word_array.each do |word|
+            foo = Word.where(:text => word.downcase, :cloud => 'test').first_or_create()
+            if foo.count == nil
+                foo.count = 1
+            else
+                foo.count += 1
+            end
+            foo.deleted = false
+            foo.save
+        end
+    end
+
   # GET /words
   # GET /words.json
   def index
@@ -41,8 +64,19 @@ class WordsController < ApplicationController
   # POST /words
   # POST /words.json
   def create
-    @word = Word.new(params[:word])
+    word_array = params[:text].gsub(/[^\w\s]/, '').downcase.split
+    word_array.each do |word|
+        foo = Word.where(:text => word.downcase, :cloud => params[:cloud]).first_or_create()
+        if foo.count == nil
+            foo.count = 1
+        else
+            foo.count += 1
+        end
+        foo.deleted = false
+        foo.save
+    end
 
+=begin
     respond_to do |format|
       if @word.save
         format.html { redirect_to @word, notice: 'Word was successfully created.' }
@@ -52,6 +86,7 @@ class WordsController < ApplicationController
         format.json { render json: @word.errors, status: :unprocessable_entity }
       end
     end
+=end
   end
 
   # PUT /words/1
@@ -75,7 +110,7 @@ class WordsController < ApplicationController
       @word = Word.find(params[:id])
       @word.deleted = true
       @word.save
-      redirect_to :controller => 'cloud', :action => 'index'
+      redirect_to :cloud => @word.cloud, :controller => 'cloud', :action => 'index'
   end
 
   # DELETE /words/1

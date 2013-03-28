@@ -2,8 +2,7 @@
 <table>
 <% @clouds.each do |cloud| %>
     <tr>
-        <td><%= cloud.cloud %></td>
-        <td><%= link_to cloud.cloud, {:action=>"index", :controller=>"cloud", :cloud=> cloud.cloud} %></td>
+        <td class="word"><%= link_to cloud.cloud, {:action=>"index", :controller=>"cloud", :cloud=> cloud.cloud} %></td>
     </tr>
 <% end %>
 </table>
