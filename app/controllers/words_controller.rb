@@ -79,13 +79,15 @@ class WordsController < ApplicationController
         end
         word_array.each do |word|
             @err = nil
-            @word = Word.where(:text => word.downcase.stem, :cloud => cloud).first_or_create()
+            word.downcase!
+            @word = Word.where(:stem => word.stem, :cloud => cloud).first_or_create()
             if @word.count == nil
                 @word.count = 1
             else
                 @word.count += 1
             end
-            @word.deleted = false
+            @word[:deleted] = false
+            @word[:text] = word
             @err = 1 if ! @word.save
         end
         respond_to do |format|
