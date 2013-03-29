@@ -3,6 +3,7 @@ Wordcloud::Application.routes.draw do
   resources :cloud
 
   #match 'words/:id/delete' => 'words#delete', :as => :delete
+  root to: 'words/#index'
   get 'words/:id/delete', to: 'words#delete'
   get 'cloud/:cloud', to: 'cloud/#index'
   get 'cloud/:cloud/delete', to: 'cloud#delete'
