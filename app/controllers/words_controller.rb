@@ -70,10 +70,12 @@ class WordsController < ApplicationController
             puts "my params = #{params}"
             word_array = params[:word][:text].gsub(/[^\w\s]|[\n\r]+/, ' ').downcase.split
         end
-        if params[:cloud] == nil
-            cloud = 'default' 
-        else
+        if params[:cloud] != nil
             cloud = params[:cloud]
+        elsif params[:word][:cloud] != nil
+            cloud = params[:word][:cloud]
+        else
+            cloud = 'default'
         end
         word_array.each do |word|
             @err = nil
