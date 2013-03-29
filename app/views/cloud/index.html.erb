@@ -3,6 +3,12 @@
     <span class="text">Click on a word to remove it from the cloud</span>
     <br/>
     <a href="/words">Home</a>
+    <br/>
+    <%= link_to 'Delete Cloud', {:action=>"delete", :controller=>"cloud", :cloud => params[:cloud]} %>
+    <br/>
+    <%= link_to 'Word counts', {:action=>"list", :controller=>"cloud", :cloud=>params[:cloud]} %>
+    <br/>
+    <%= link_to 'New Word', new_word_path %>
 </div>
 <div id="cloud">
     <% @words.each do |word| %>
