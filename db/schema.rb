@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130329183511) do
+ActiveRecord::Schema.define(:version => 20130331190920) do
+
+  create_table "brains", :force => true do |t|
+    t.text     "classifier"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "phrases", :force => true do |t|
+    t.text     "text"
+    t.string   "category"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "brain_id"
+  end
 
   create_table "words", :force => true do |t|
     t.text     "text"

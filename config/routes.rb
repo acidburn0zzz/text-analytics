@@ -1,4 +1,8 @@
 Wordcloud::Application.routes.draw do
+  resources :phrases
+
+
+  resources :brains
   resources :words
   resources :cloud
 
