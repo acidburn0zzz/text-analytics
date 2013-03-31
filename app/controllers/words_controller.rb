@@ -94,7 +94,7 @@ class WordsController < ApplicationController
             if ! @err
                 format.html { redirect_to @word, notice: 'Word was successfully created.' }
                 format.json { render json: @word, status: :created, location: @word }
-                format.xml { render :locals => {:word_array => @word_array} #create.xml.builder
+                format.xml { render :locals => {:word_array => @word_array} } #create.xml.builder
             else
                 format.html { render action: "new" }
                 format.json { render json: @word.errors, status: :unprocessable_entity }
