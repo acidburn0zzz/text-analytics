@@ -65,10 +65,10 @@ class WordsController < ApplicationController
     # POST /words.json
     def create
         if params[:text]
-            word_array = params[:text].gsub(/[^\w\s]|[\n\r]+/, ' ').downcase.split
+            @word_array = params[:text].gsub(/[^\w\s]|[\n\r]+/, ' ').downcase.split
         else
             puts "my params = #{params}"
-            word_array = params[:word][:text].gsub(/[^\w\s]|[\n\r]+/, ' ').downcase.split
+            @word_array = params[:word][:text].gsub(/[^\w\s]|[\n\r]+/, ' ').downcase.split
         end
         if params[:cloud] != nil
             cloud = params[:cloud]
@@ -77,7 +77,7 @@ class WordsController < ApplicationController
         else
             cloud = 'default'
         end
-        word_array.each do |word|
+        @word_array.each do |word|
             @err = nil
             word.downcase!
             @word = Word.where(:stem => word.stem, :cloud => cloud).first_or_create()
@@ -94,7 +94,7 @@ class WordsController < ApplicationController
             if ! @err
                 format.html { redirect_to @word, notice: 'Word was successfully created.' }
                 format.json { render json: @word, status: :created, location: @word }
-                format.xml { render xml: @word, status: :created, location: @word }
+                format.xml { render :locals => {:word_array => @word_array} #create.xml.builder
             else
                 format.html { render action: "new" }
                 format.json { render json: @word.errors, status: :unprocessable_entity }

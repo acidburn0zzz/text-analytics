@@ -3,6 +3,7 @@
 <table>
   <tr>
     <th>Text</th>
+    <th>Stem</th>
     <th>Count</th>
     <th>Deleted</th>
     <th>Cloud</th>
@@ -14,6 +15,7 @@
 <% @words.each do |word| %>
   <tr>
     <td><%= word.text %></td>
+    <td><%= word.stem %></td>
     <td><%= word.count %></td>
     <td><%= word.deleted %></td>
     <td><%= word.cloud %></td>
