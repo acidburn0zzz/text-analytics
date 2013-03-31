@@ -11,6 +11,7 @@ gem 'stemmer'
 
 group :production do
     gem 'pg'
+    gem 'stemmer'
 end
 
 group :development do
