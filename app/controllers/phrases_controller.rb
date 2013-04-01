@@ -21,37 +21,51 @@ class PhrasesController < ApplicationController
     end
   end
 
-  # GET /phrases/new
-  # GET /phrases/new.json
-  def new
-    @phrase = Phrase.new
+    # GET /phrases/new
+    # GET /phrases/new.json
+    def new
+        @brain_names = Array.new    
+        @phrase = Phrase.new
+        @brains = Brain.find(:all)
+        @brains.each do |brain|
+            @brain_names << [brain.name, brain.id]
+        end
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @phrase }
+        respond_to do |format|
+            format.html # new.html.erb
+            format.json { render json: @phrase }
+        end
     end
-  end
 
   # GET /phrases/1/edit
   def edit
     @phrase = Phrase.find(params[:id])
   end
 
-  # POST /phrases
-  # POST /phrases.json
-  def create
-    @phrase = Phrase.new(params[:phrase])
+    # POST /phrases
+    # POST /phrases.json
+    def create
+        if params[:phrase][:brain_id] == nil
+            brain_id = Brain.where(:name => params[:phrase][:brain_name]).first.id
+            @phrase = Phrase.new(:text => params[:phrase][:text],
+                                 :category => params[:phrase][:category],
+                                 :brain_id => brain_id)
+        else
+            @phrase = Phrase.new(params[:phrase])
+        end
 
-    respond_to do |format|
-      if @phrase.save
-        format.html { redirect_to @phrase, notice: 'Phrase was successfully created.' }
-        format.json { render json: @phrase, status: :created, location: @phrase }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @phrase.errors, status: :unprocessable_entity }
-      end
+        respond_to do |format|
+            if @phrase.save
+                format.html { redirect_to @phrase, notice: 'Phrase was successfully created.' }
+                format.json { render json: @phrase, status: :created, location: @phrase }
+                format.xml { render xml: @phrase, status: :created, location: @phrase }
+            else
+                format.html { render action: "new" }
+                format.json { render json: @phrase.errors, status: :unprocessable_entity }
+                format.xml { render xml: @phrase.errors, status: :unprocessable_entity }
+            end
+        end
     end
-  end
 
   # PUT /phrases/1
   # PUT /phrases/1.json

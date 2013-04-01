@@ -2,17 +2,18 @@
 
 <table>
   <tr>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Name</th>
+    <th>Type</th>
   </tr>
 
 <% @brains.each do |brain| %>
-  <tr>
-    <td><%= link_to 'Show', brain %></td>
-    <td><%= link_to 'Edit', edit_brain_path(brain) %></td>
-    <td><%= link_to 'Destroy', brain, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+    <tr>
+        <td><%= brain.name %></td>
+        <td><%= brain.classifier_type %></td>  
+        <td><%= link_to 'Show', brain %></td>
+        <td><%= link_to 'Edit', edit_brain_path(brain) %></td>
+        <td><%= link_to 'Destroy', brain, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
 <% end %>
 </table>
 

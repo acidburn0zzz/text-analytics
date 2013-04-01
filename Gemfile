@@ -8,10 +8,12 @@ gem 'rails', '3.2.13'
 #gem 'sqlite3'
 gem 'therubyracer', :require => 'v8'
 gem 'stemmer'
+gem 'classifier'
 
 group :production do
     gem 'pg'
     gem 'stemmer'
+    gem 'classifier'
 end
 
 group :development do

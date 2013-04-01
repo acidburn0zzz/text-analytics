@@ -41,6 +41,10 @@ class BrainsController < ApplicationController
   # POST /brains.json
   def create
     @brain = Brain.new(params[:brain])
+    if @brain.classifier_type == 'LSI'
+        lsi = Classifier::LSI.new
+        @brain.classifier = YAML.dump lsi
+    end
 
     respond_to do |format|
       if @brain.save

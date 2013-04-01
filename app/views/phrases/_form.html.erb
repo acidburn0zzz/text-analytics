@@ -11,6 +11,22 @@
     </div>
   <% end %>
 
+  <div class="field">
+      <%= f.label :text %><br />
+      <%= f.text_area :text %>
+  </div>
+
+  <div class="field">
+      <%= f.label :category %><br />
+      <%= f.text_field :category %>
+  </div>
+
+  <div class="field">
+      <%= f.label :brain %><br />
+      <%= f.select :brain_id, options_for_select(@brain_names) %>
+  </div>
+      
+
   <div class="actions">
     <%= f.submit %>
   </div>
