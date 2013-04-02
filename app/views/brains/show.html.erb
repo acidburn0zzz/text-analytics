@@ -1,4 +1,26 @@
-<p id="notice"><%= notice %></p>
+<h1><%= @brain.name %></h1>
+
+<%= render "test_form" %>
+
+<div id="results">
+    <p id="notice"><%= notice %></p>
+</div>
+
+<h3>Trained Phrases</h3>
+<table>
+    <tr>
+        <th>Phrase</th>
+        <th>Category</th>
+    </tr>
+    <% @brain.phrases.each do |phrase| %>
+    <tr>
+        <td><%= phrase.text %></td>
+        <td><%= phrase.category%></td>
+    </tr>
+    <% end %>
+</table>
+
+
 
 
 <%= link_to 'Edit', edit_brain_path(@brain) %> |

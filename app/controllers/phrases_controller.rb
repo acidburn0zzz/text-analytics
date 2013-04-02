@@ -45,17 +45,31 @@ class PhrasesController < ApplicationController
     # POST /phrases
     # POST /phrases.json
     def create
-        if params[:phrase][:brain_id] == nil
-            brain_id = Brain.where(:name => params[:phrase][:brain_name]).first.id
+        # cgi post
+        if params[:brain_name]
+            @brain = Brain.where(:name => params[:brain_name]).first
+            @phrase = Phrase.new(:text => params[:text],
+                                 :category => params[:category],
+                                 :brain_id => @brain.id)
+        # xml post
+        elsif params[:phrase][:brain_name] 
+            @brain = Brain.where(:name => params[:phrase][:brain_name]).first
             @phrase = Phrase.new(:text => params[:phrase][:text],
                                  :category => params[:phrase][:category],
-                                 :brain_id => brain_id)
+                                 :brain_id => @brain.id)
+        # web form
         else
+            @brain = Brain.find(params[:phrase][:brain_id])
             @phrase = Phrase.new(params[:phrase])
         end
 
         respond_to do |format|
             if @phrase.save
+                classifier = YAML.load(@brain.classifier)
+                classifier.add_item(@phrase.text, @phrase.category)
+                @brain.classifier = YAML.dump(classifier)
+                @brain.save
+
                 format.html { redirect_to @phrase, notice: 'Phrase was successfully created.' }
                 format.json { render json: @phrase, status: :created, location: @phrase }
                 format.xml { render xml: @phrase, status: :created, location: @phrase }

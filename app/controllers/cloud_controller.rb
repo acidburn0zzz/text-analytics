@@ -14,7 +14,7 @@ class CloudController < ApplicationController
     end
 
     def list
-        @words = Word.where(:deleted => false, :cloud => params[:cloud]).order('count desc').limit(1000)
+        @words = Word.where(:cloud => params[:cloud]).order('count desc').limit(1000)
         respond_to do |format|
             format.html
         end

@@ -13,6 +13,7 @@ Wordcloud::Application.routes.draw do
   get 'cloud/:cloud', to: 'cloud/#index'
   get 'cloud/:cloud/delete', to: 'cloud#delete'
   get 'cloud/:cloud/list', to: 'cloud#list'
+  post 'brains/test', to: 'brains#test'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -11,13 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130401153138) do
+ActiveRecord::Schema.define(:version => 20130402151440) do
 
   create_table "brains", :force => true do |t|
     t.text     "classifier"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-    t.string   "classifer_type"
     t.string   "classifier_type"
     t.string   "name"
   end

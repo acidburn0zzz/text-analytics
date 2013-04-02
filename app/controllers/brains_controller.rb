@@ -84,4 +84,24 @@ class BrainsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # POST /brains/:name/test?text="classify me"
+  def test
+      if params[:id]
+        @brain = Brain.find(params[:id])
+      elsif params[:brain_name]
+          @brain = Brain.where(:name => params[:brain_name]).first
+      else
+          @brain = Brain.where(:name => params[:phrase][:brain_name]).first
+      end
+      classifier = YAML.load(@brain.classifier)
+      @res = classifier.classify(params[:text])
+      respond_to do |format|
+          format.html { 
+              flash[:notice] = @res 
+              redirect_to @brain
+          }
+          format.xml { render :locals => {:res => @res} } #test.xml.builder
+      end
+  end
 end

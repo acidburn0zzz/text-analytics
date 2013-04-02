@@ -2,13 +2,18 @@
 
 <table>
   <tr>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Text</th>
+    <th>Category</th>
+    <th>Classifier Name</th>
+    <th>Classifier Type</th>
   </tr>
 
 <% @phrases.each do |phrase| %>
   <tr>
+    <td><%= phrase.text %></td>
+    <td><%= phrase.category %></td>
+    <td><%= phrase.brain.name %></td>
+    <td><%= phrase.brain.classifier_type %></td>
     <td><%= link_to 'Show', phrase %></td>
     <td><%= link_to 'Edit', edit_phrase_path(phrase) %></td>
     <td><%= link_to 'Destroy', phrase, method: :delete, data: { confirm: 'Are you sure?' } %></td>

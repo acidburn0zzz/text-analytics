@@ -4,7 +4,7 @@
     <br/>
     <a href="/words">Home</a>
     <br/>
-    <%= link_to 'Delete Cloud', {:action=>"delete", :controller=>"cloud", :cloud => params[:cloud]} %>
+    <%= link_to 'Delete Cloud', {:action=>"delete", :controller=>"cloud", :cloud => params[:cloud], data: { confirm: 'Are you sure?' }} %>
     <br/>
     <%= link_to 'Word counts', {:action=>"list", :controller=>"cloud", :cloud=>params[:cloud]} %>
     <br/>
