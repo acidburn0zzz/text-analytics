@@ -1,4 +1,5 @@
 class PhrasesController < ApplicationController
+    http_basic_authenticate_with :name => "boomi", :password => "b00m1"
   # GET /phrases
   # GET /phrases.json
   def index

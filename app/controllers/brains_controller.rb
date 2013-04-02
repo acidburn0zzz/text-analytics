@@ -1,4 +1,5 @@
 class BrainsController < ApplicationController
+    http_basic_authenticate_with :name => "boomi", :password => "b00m1"
   # GET /brains
   # GET /brains.json
   def index

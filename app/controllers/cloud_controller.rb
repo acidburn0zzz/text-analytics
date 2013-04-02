@@ -1,4 +1,5 @@
 class CloudController < ApplicationController
+    http_basic_authenticate_with :name => "boomi", :password => "b00m1"
     def index
         @words = Word.where(:deleted => false, :cloud => params[:cloud]).order('count desc').limit(1000)
         respond_to do |format|
