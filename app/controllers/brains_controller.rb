@@ -121,7 +121,7 @@ class BrainsController < ApplicationController
       @brain = Brain.where(:name => params[:name]).first
       classifier = YAML.load(@brain.classifier)
       classifier.add_item(text, category)
-      #classifier.build_index
+      classifier.build_index if classifier.needs_rebuild?
       @brain.classifier = YAML.dump(classifier)
       respond_to do |format|
           if @brain.save
@@ -138,7 +138,7 @@ class BrainsController < ApplicationController
     @brain = Brain.where(:name => params[:name]).first
     classifier = YAML.load(@brain.classifier)
     classifier.remove_item(classifier.items[params[:item_index].to_i])
-    classifier.build_index
+    classifier.build_index if classifier.needs_rebuild?
     @brain.classifier = YAML.dump(classifier)
     respond_to do |format|
         if @brain.save
