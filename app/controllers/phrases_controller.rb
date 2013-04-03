@@ -40,7 +40,12 @@ class PhrasesController < ApplicationController
 
   # GET /phrases/1/edit
   def edit
+    @brain_names = Array.new
+    @brains = Brain.find(:all)
     @phrase = Phrase.find(params[:id])
+    @brains.each do |brain|
+        @brain_names << [brain.name, brain.id]
+    end
   end
 
     # POST /phrases
@@ -86,9 +91,11 @@ class PhrasesController < ApplicationController
   # PUT /phrases/1.json
   def update
     @phrase = Phrase.find(params[:id])
+    @brain = @phrase.brain
 
     respond_to do |format|
       if @phrase.update_attributes(params[:phrase])
+        classifier = YAML.load(@brain.classifier).build_index
         format.html { redirect_to @phrase, notice: 'Phrase was successfully updated.' }
         format.json { head :no_content }
       else

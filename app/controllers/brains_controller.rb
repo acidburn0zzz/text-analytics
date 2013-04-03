@@ -15,6 +15,7 @@ class BrainsController < ApplicationController
   # GET /brains/1.json
   def show
     @brain = Brain.find(params[:id])
+    @classifier = YAML.load(@brain.classifier)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -104,5 +105,19 @@ class BrainsController < ApplicationController
           }
           format.xml { render :locals => {:res => @res} } #test.xml.builder
       end
+  end
+
+  # POST /brains/:name/delete_item/:item_index
+  def delete_item
+    @brain = Brain.where(:name => params[:name]).first
+    classifier = YAML.load(@brain.classifier)
+    classifier.remove_item(classifier.items[params[:item_index].to_i])
+    classifier.build_index
+    @brain.classifier = YAML.dump(classifier)
+    respond_to do |format|
+        if @brain.save
+            format.html { redirect_to @brain, notice: 'Item successfully deleted.' }
+        end
+    end
   end
 end

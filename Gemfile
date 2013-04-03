@@ -6,7 +6,7 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'fast-stemmer'
-gem 'classifier'
+gem 'classifier', :git => 'git://github.com/dougsko/classifier.git'
 
 group :production do
     gem 'pg'
