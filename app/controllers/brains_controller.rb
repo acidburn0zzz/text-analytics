@@ -89,13 +89,13 @@ class BrainsController < ApplicationController
 
   # POST /brains/:name/test?text="classify me"
   def test
-      if params[:id]
-        @brain = Brain.find(params[:id])
-      elsif params[:brain_name]
-          @brain = Brain.where(:name => params[:brain_name]).first
-      else
-          @brain = Brain.where(:name => params[:phrase][:brain_name]).first
+      # xml
+      if params[:phrase]
+          text = params[:phrase][:text]
+      elsif params[:text]
+          text = params[:text]
       end
+      @brain = Brain.where(:name => params[:name]).first
       classifier = YAML.load(@brain.classifier)
       @res = classifier.classify(params[:text])
       respond_to do |format|
@@ -106,6 +106,32 @@ class BrainsController < ApplicationController
           format.xml { render :locals => {:res => @res} } #test.xml.builder
       end
   end
+
+  # POST /brains/:name/train?text="stuff"&category="category"
+  def train
+      # xml
+      if params[:phrase]
+          text = params[:phrase][:text]
+          category = params[:phrase][:category]
+      # cgi
+      elsif params[:text]
+          text = params[:text]
+          category = params[:category]
+      end
+      @brain = Brain.where(:name => params[:name]).first
+      classifier = YAML.load(@brain.classifier)
+      classifier.add_item(text, category)
+      #classifier.build_index
+      @brain.classifier = YAML.dump(classifier)
+      respond_to do |format|
+          if @brain.save
+              @res = "success"
+              format.html { redirect_to @brain, notice: 'Item successfully added.' }
+              format.xml { render :locals => {:res => @res} }
+          end
+      end
+  end
+
 
   # POST /brains/:name/delete_item/:item_index
   def delete_item

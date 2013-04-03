@@ -1,7 +1,7 @@
-<%= form_tag "/brains/test" do %>
+<%= form_tag "/brains/#{@brain.name}/test" do %>
     <%= label_tag(:text, "Text to test") %><br/>
     <%= text_area_tag(:text) %><br/>
-    <%= hidden_field_tag('id', @brain.id) %><br/>
+    <%= hidden_field_tag(:name, @brain.name) %><br/>
     <%= submit_tag("Classify") %>
 <% end %>
 
