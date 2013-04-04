@@ -1,5 +1,6 @@
 class BrainsController < ApplicationController
     http_basic_authenticate_with :name => "boomi", :password => "b00m1"
+  
   # GET /brains
   # GET /brains.json
   def index
@@ -100,7 +101,7 @@ class BrainsController < ApplicationController
       @res = classifier.classify(params[:text])
       respond_to do |format|
           format.html { 
-              flash[:notice] = @res 
+              flash[:notice] = @res
               redirect_to @brain
           }
           format.xml { render :locals => {:res => @res} } #test.xml.builder
