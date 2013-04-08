@@ -7,6 +7,7 @@ gem 'rails', '3.2.13'
 
 gem 'fast-stemmer'
 gem 'classifier', :git => 'git://github.com/dougsko/classifier.git'
+gem 'hoatzin'
 
 group :production do
     gem 'pg'
