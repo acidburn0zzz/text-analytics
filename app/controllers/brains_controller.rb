@@ -92,8 +92,8 @@ class BrainsController < ApplicationController
     end
   end
 
-  # POST /brains/:id/test?text="classify me"
-  def test
+  # POST /brains/:id/classify?text="classify me"
+  def classify
       # xml
       if params[:phrase]
           text = params[:phrase][:text]

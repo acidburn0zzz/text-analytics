@@ -13,7 +13,7 @@ Wordcloud::Application.routes.draw do
   get 'cloud/:cloud', to: 'cloud/#index'
   get 'cloud/:cloud/delete', to: 'cloud#delete'
   get 'cloud/:cloud/list', to: 'cloud#list'
-  post 'brains/:id/test', to: 'brains#test'
+  post 'brains/:id/classify', to: 'brains#classify'
   post 'brains/:name/delete_item/:item_index', to: 'brains#delete_item'
   post 'brains/:id/train', to: 'brains#train'
   post 'brains/:id/related', to: 'brains#related'
