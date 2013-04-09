@@ -16,7 +16,7 @@ class BrainsController < ApplicationController
   # GET /brains/1.json
   def show
     @brain = Brain.find(params[:id])
-    @classifier = YAML.load(@brain.classifier)
+    @classifier = Marshal.load(@brain.classifier)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -46,7 +46,11 @@ class BrainsController < ApplicationController
     @brain = Brain.new(params[:brain])
     if @brain.classifier_type == 'LSI'
         lsi = Classifier::LSI.new
-        @brain.classifier = YAML.dump lsi
+        @brain.classifier = Marshal.dump lsi
+    elsif @brain.classifier_type == 'Bayes'
+        storage = Ankusa::MemoryStorage.new
+        bayes = Ankusa::NaiveBayesClassifier.new storage
+        @brain.classifier = Marshal.dump bayes
     end
 
     respond_to do |format|
@@ -97,7 +101,7 @@ class BrainsController < ApplicationController
           text = params[:text]
       end
       @brain = Brain.where(:name => params[:name]).first
-      classifier = YAML.load(@brain.classifier)
+      classifier = Marshal.load(@brain.classifier)
       @res = classifier.classify(params[:text])
       respond_to do |format|
           format.html { 
@@ -120,10 +124,15 @@ class BrainsController < ApplicationController
           category = params[:category]
       end
       @brain = Brain.where(:name => params[:name]).first
-      classifier = YAML.load(@brain.classifier)
-      classifier.add_item(text, category)
-      classifier.build_index if classifier.needs_rebuild?
-      @brain.classifier = YAML.dump(classifier)
+      classifier = Marshal.load(@brain.classifier)
+      if @brain.classifier_type == 'Bayes'
+          classifier.train(category, text)
+          @brain.classifier = Marshal.dump(classifier)
+      else
+        classifier.add_item(text, category)
+        classifier.build_index if classifier.needs_rebuild?
+        @brain.classifier = Marshal.dump(classifier)
+      end
       respond_to do |format|
           if @brain.save
               @res = "success"

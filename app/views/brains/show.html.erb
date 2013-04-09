@@ -8,21 +8,6 @@
     <p id="notice"><%= notice %></p>
 </div>
 
-<h3>Trained Phrases</h3>
-<table>
-    <tr>
-        <th>Phrase</th>
-        <th>Category</th>
-    </tr>
-    <% @classifier.items.each do |item| %>
-    <tr>
-        <td><%= item %></td>
-        <td><%= @classifier.categories_for(item).inspect %></td>
-        <td><%= link_to 'Delete Phrase', "/brains/#{@brain.name}/delete_item/#{@classifier.items.index(item)}", method: :post, data: { confirm: 'Are you sure?' }%></td>
-    </tr>
-    <% end %>
-</table>
-
 
 
 
