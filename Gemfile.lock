@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/dougsko/classifier.git
-  revision: 44cebc086d3865aff9ce7ea31271019ca61a1db5
+  revision: 8f6742cc6629dd92ebee34a35eb79d3fb25bf32c
   specs:
-    classifier (0.0.1)
+    classifier (0.0.5)
       fast-stemmer
 
 GEM

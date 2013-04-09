@@ -8,7 +8,9 @@
     <p id="notice"><%= notice %></p>
 </div>
 
-
+<% @brain.categories.each do |c| %>
+    <p><%= c %></p>
+<% end %>
 
 
 <%= link_to 'Edit', edit_brain_path(@brain) %> |
