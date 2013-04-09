@@ -1,4 +1,4 @@
-<%= form_tag "/brains/#{@brain.name}/train" do %>
+<%= form_tag "/brains/#{@brain.id}/train" do %>
     <%= label_tag(:text, "Text to train") %><br/>
     <%= text_area_tag(:text) %><br/>
     <%= label_tag(:text, "Category") %><br/>

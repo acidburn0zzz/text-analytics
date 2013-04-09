@@ -92,15 +92,17 @@ class BrainsController < ApplicationController
     end
   end
 
-  # POST /brains/:name/test?text="classify me"
+  # POST /brains/:id/test?text="classify me"
   def test
       # xml
       if params[:phrase]
           text = params[:phrase][:text]
+          brain_id = params[:phrase][:brain_id]
       elsif params[:text]
           text = params[:text]
+          brain_id = params[:id]
       end
-      @brain = Brain.where(:name => params[:name]).first
+      @brain = Brain.find(brain_id)
       classifier = Marshal.load(@brain.classifier)
       @res = classifier.classify(params[:text])
       respond_to do |format|
@@ -112,18 +114,20 @@ class BrainsController < ApplicationController
       end
   end
 
-  # POST /brains/:name/train?text="stuff"&category="category"
+  # POST /brains/:id/train?text="stuff"&category="category"
   def train
       # xml
       if params[:phrase]
           text = params[:phrase][:text]
           category = params[:phrase][:category]
+          brain_id = params[:phrase][:brain_id]
       # cgi
       elsif params[:text]
           text = params[:text]
           category = params[:category]
+          brain_id = params[:id]
       end
-      @brain = Brain.where(:name => params[:name]).first
+      @brain = Brain.find(brain_id)
       classifier = Marshal.load(@brain.classifier)
       if @brain.classifier_type == 'Bayes'
           classifier.train(category, text)
@@ -139,6 +143,28 @@ class BrainsController < ApplicationController
               format.html { redirect_to @brain, notice: 'Item successfully added.' }
               format.xml { render :locals => {:res => @res} }
           end
+      end
+  end
+
+  # POST /brains/:id/related?text="stuff"
+  def related
+      # xml
+      if params[:phrase]
+          text = params[:phrase][:text]
+          brain_id = params[:phrase][:brain_id]
+      elsif params[:text]
+          text = params[:text]
+          brain_id = params[:id]
+      end
+      @brain = Brain.find(brain_id)
+      classifier = Marshal.load(@brain.classifier)
+      if @brain.classifier_type == 'LSI'
+          @res = classifier.find_related(text)
+      else
+          @res = "Only the LSI classifier supports this function."
+      end
+      respond_to do |format|
+          format.xml { render :locals => {:res => @res} }
       end
   end
 
