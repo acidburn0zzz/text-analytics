@@ -1,0 +1,6 @@
+<%= form_tag "/brains/#{@brain.id}/classify" do %>
+    <%= label_tag(:text, "Text to test") %><br/>
+    <%= text_area_tag(:text) %><br/>
+    <%= submit_tag("Classify") %>
+<% end %>
+

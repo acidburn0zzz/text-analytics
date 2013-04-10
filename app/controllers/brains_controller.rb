@@ -97,12 +97,10 @@ class BrainsController < ApplicationController
       # xml
       if params[:phrase]
           text = params[:phrase][:text]
-          brain_id = params[:phrase][:brain_id]
       elsif params[:text]
           text = params[:text]
-          brain_id = params[:id]
       end
-      @brain = Brain.find(brain_id)
+      @brain = Brain.find(params[:id])
       classifier = Marshal.load(@brain.classifier)
       @res = classifier.classify(params[:text])
       respond_to do |format|
@@ -110,7 +108,7 @@ class BrainsController < ApplicationController
               flash[:notice] = @res
               redirect_to @brain
           }
-          format.xml { render :locals => {:res => @res} } #test.xml.builder
+          format.xml { render :locals => {:res => @res} } #classify.xml.builder
       end
   end
 
@@ -120,14 +118,12 @@ class BrainsController < ApplicationController
       if params[:phrase]
           text = params[:phrase][:text]
           category = params[:phrase][:category]
-          brain_id = params[:phrase][:brain_id]
       # cgi
       elsif params[:text]
           text = params[:text]
           category = params[:category]
-          brain_id = params[:id]
       end
-      @brain = Brain.find(brain_id)
+      @brain = Brain.find(params[:id])
       classifier = Marshal.load(@brain.classifier)
       if @brain.classifier_type == 'Bayes'
           classifier.train(category, text)
